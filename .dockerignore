@@ -1,0 +1,16 @@
+.git/
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.prefect/
+.prefect_home/
+results/
+*.db
+*.sqlite
+*.log
+notebooks/

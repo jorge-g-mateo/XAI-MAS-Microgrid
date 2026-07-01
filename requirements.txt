@@ -1,0 +1,43 @@
+# Microgrid Multi-Agent System
+# Python 3.13. Create a venv:  python -m venv .venv
+#
+# IMPORTANT: scikit-learn is pinned to 1.8.0 because the provided models
+# (models/*.pkl) were serialized with that version. A different version can
+# silently produce invalid predictions.
+
+# --- Shared foundation (installed & validated in Phase 0) ---
+scikit-learn==1.8.0
+pandas>=3.0
+numpy>=2.4
+joblib>=1.4
+
+# --- Optimization (jMetal multi-objective) ---
+jmetalpy>=1.6.0
+
+# --- Explainability (xAI) ---
+shap>=0.46
+lime>=0.2            # local surrogate explanations (complements SHAP)
+matplotlib>=3.9
+# Note: ALE (Accumulated Local Effects) is implemented from scratch in
+# src/xai/explain.py (no extra dependency).
+
+# --- Multi-agent system (FIPA-ACL) ---
+# The MAS uses an in-process FIPA-ACL layer (src/mas/acl.py): standard
+# performatives, conversation ids and Contract Net, with a synchronous message
+# bus and no external XMPP broker. No extra dependency is required.
+
+# --- Data engineering (orchestration & persistence) ---
+prefect>=3.0
+SQLAlchemy>=2.0
+polars>=1.0          # data ingestion & quality checks
+
+# --- Dashboard ---
+streamlit>=1.35
+dash>=2.14
+dash-mantine-components>=0.14,<0.15
+
+# --- Statistical tests (Wilcoxon, etc.) ---
+scipy>=1.10
+
+# --- PostgreSQL driver (optional: only needed when MICROGRID_DB_URL points to Postgres) ---
+psycopg2-binary>=2.9

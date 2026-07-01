@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local orchestration state
+.prefect/
+.prefect_home/
+
+# Local inputs and generated outputs
+data/*
+!data/.gitkeep
+models/*
+!models/.gitkeep
+!models/README.md
+results/*
+!results/.gitkeep
+
+# Data files and generated datasets
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+*.jsonl
+
+# Trained model binaries
+*.pkl
+*.pickle
+*.joblib
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.onnx
+
+# Databases and logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+~$*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local assistant/tool settings
+.claude/

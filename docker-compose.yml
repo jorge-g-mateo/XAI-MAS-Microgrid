@@ -1,0 +1,36 @@
+# Microgrid Multi-Agent System — orchestrated stack.
+#
+#   docker compose up prefect-server   # Prefect UI at http://localhost:4200
+#   docker compose run --rm pipeline   # run the orchestrated pipeline once
+#
+# The pipeline persists results to a named volume (SQLite). Point
+# MICROGRID_DB_URL at a Postgres service instead to scale persistence.
+
+services:
+  prefect-server:
+    image: prefecthq/prefect:3-latest
+    command: prefect server start --host 0.0.0.0
+    ports:
+      - "4200:4200"
+    environment:
+      PREFECT_SERVER_API_HOST: 0.0.0.0
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; urllib.request.urlopen('http://localhost:4200/api/health'); "]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  pipeline:
+    build: .
+    depends_on:
+      prefect-server:
+        condition: service_healthy
+    environment:
+      PREFECT_API_URL: http://prefect-server:4200/api
+      MICROGRID_DB_URL: sqlite:////app/results/microgrid.db
+    volumes:
+      - results:/app/results
+    # override args here, e.g.:  docker compose run --rm pipeline python -m src.pipeline.flow --row 4000
+
+volumes:
+  results:

@@ -1,0 +1,36 @@
+name: microgrid
+prefect-version: "3.7.4"
+
+build: null
+push: null
+
+pull:
+  - prefect.deployments.steps.set_working_directory:
+      directory: "{{ $MICROGRID_PROJECT_DIR }}"
+
+deployments:
+  - name: daily-optimization
+    version: "1.0"
+    tags:
+      - microgrid
+      - production
+    description: >
+      Daily microgrid pipeline: data validation -> ML inference ->
+      multi-objective optimization (NSGA-II/III/SPEA2) -> MAS negotiation
+      (FIPA-ACL Contract Net) -> SQLite persistence -> explainability (xAI).
+    entrypoint: src/pipeline/flow.py:microgrid_pipeline
+    parameters:
+      timestamp: "2017-06-15 19:00:00"
+      demand: null
+      runs: 2
+      evals: 6000
+      rounds: 10
+      xai_sample: 300
+    schedules:
+      - cron: "0 19 * * *"
+        timezone: "Europe/Madrid"
+        active: false
+    work_pool:
+      name: microgrid-pool
+      work_queue_name: default
+      job_variables: {}
